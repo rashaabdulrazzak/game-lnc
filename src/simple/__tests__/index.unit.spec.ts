@@ -1,19 +1,21 @@
-import * as contract from "../assembly";
-
+import {createGame,joinGame} from "../assembly";
+import {PersistentMap , VMContext , u128,VM} from 'near-sdk-as'
+ const contract = 'rashaabdulrazzak.testnet'
 describe("Contract", () => {
   // VIEW method tests
 
-  it("says hello", () => {
-    expect(contract.helloWorld()).toStrictEqual("hello world")
+  it("create a game", () => {
+    VMContext.setAttached_deposit(u128.from('150000000000000000000000'));
+    VMContext.setCurrent_account_id(contract);
+
+    expect(createGame).toBeTruthy();
   })
 
-  it("reads data", () => {
-    expect(contract.read("some key")).toStrictEqual("🚫 Key [ some key ] not found in storage. ( storage [ 0 bytes ] )")
+  it("join a game", () => {
+    VMContext.setAttached_deposit(u128.from('150000000000000000000000'));
+    VMContext.setCurrent_account_id('buildhome.testnet');
+    expect(joinGame).toBeTruthy();
   })
 
-  // CHANGE method tests
 
-  it("saves data to contract storage", () => {
-    expect(contract.write("some-key", "some value")).toStrictEqual("✅ Data saved. ( storage [ 18 bytes ] )")
-  })
 })
